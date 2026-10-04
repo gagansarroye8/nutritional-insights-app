@@ -1,0 +1,61 @@
+# CI/CD pipeline for Project 1 - Nutritional Insights App
+name: CI/CD Pipeline
+
+# WHEN the pipeline runs
+on:
+  push:
+    branches: [ main ]       # every time someone pushes to main
+  pull_request:
+    branches: [ main ]       # every time someone opens a pull request to main
+  workflow_dispatch:         # lets you click "Run workflow" by hand
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest   # GitHub gives us a free Ubuntu computer
+
+    steps:
+      # 1. Download our repo code onto the GitHub computer
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      # 2. Install Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 3. Install the Python packages our code needs
+      - name: Install Python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas matplotlib seaborn pytest
+
+      # 4. TEST: run our tests (pytest finds test_*.py files)
+      - name: Run tests
+        run: pytest -v
+
+      # 5. BUILD: build the Docker image from our Dockerfile
+      - name: Build Docker image
+        run: docker build -t diet-analysis .
+
+      # 6. Log in to Docker Hub (uses secrets, so the password is hidden)
+      - name: Log in to Docker Hub
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 7. PUSH: send the image to Docker Hub
+      - name: Push Docker image to Docker Hub
+        if: github.event_name != 'pull_request'
+        run: |
+          docker tag diet-analysis ${{ secrets.DOCKERHUB_USERNAME }}/diet-analysis:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/diet-analysis:latest
+
+      # 8. SIMULATED DEPLOYMENT: run the container and show its output
+      - name: Simulated deployment - run the container
+        run: |
+          echo "Deployment started at: $(date)"
+          docker run --rm diet-analysis
+          echo "Deployment finished at: $(date)"
