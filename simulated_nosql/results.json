@@ -1,0 +1,44 @@
+{
+  "document_type": "nutritional_insights",
+  "source": {
+    "storage": "Azurite Blob Storage",
+    "container": "datasets",
+    "blob": "All_Diets.csv",
+    "downloaded_bytes": 702514
+  },
+  "processed_at_utc": "2026-10-05T18:36:38.067479+00:00",
+  "recipe_count": 7806,
+  "diet_type_count": 5,
+  "average_macronutrients": [
+    {
+      "Diet_type": "dash",
+      "Protein(g)": 69.28,
+      "Carbs(g)": 160.54,
+      "Fat(g)": 101.15
+    },
+    {
+      "Diet_type": "keto",
+      "Protein(g)": 101.27,
+      "Carbs(g)": 57.97,
+      "Fat(g)": 153.12
+    },
+    {
+      "Diet_type": "mediterranean",
+      "Protein(g)": 101.11,
+      "Carbs(g)": 152.91,
+      "Fat(g)": 101.42
+    },
+    {
+      "Diet_type": "paleo",
+      "Protein(g)": 88.67,
+      "Carbs(g)": 129.55,
+      "Fat(g)": 135.67
+    },
+    {
+      "Diet_type": "vegan",
+      "Protein(g)": 56.16,
+      "Carbs(g)": 254.0,
+      "Fat(g)": 103.3
+    }
+  ]
+}

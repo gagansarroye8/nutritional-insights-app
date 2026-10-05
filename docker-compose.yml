@@ -1,0 +1,9 @@
+services:
+  diet-analysis:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: project1-diet-analysis:latest
+    container_name: project1-diet-analysis
+    volumes:
+      - ./outputs:/app/outputs

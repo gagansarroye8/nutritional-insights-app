@@ -1,0 +1,8 @@
+.venv/
+outputs/
+__pycache__/
+*.py[cod]
+*.log
+.DS_Store
+.git/
+.gitignore
